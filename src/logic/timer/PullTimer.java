@@ -1,0 +1,44 @@
+package logic.timer;
+
+public class PullTimer extends TimeDelay {
+	private boolean pullReady;
+	private long originalTimeOut;
+	private long speedUpTimeout;
+	private boolean speedUpActive;
+
+	public boolean isSpeedUpActive() {
+		return speedUpActive;
+	}
+
+	public PullTimer(long timeOut, long speedUpTimeout) {
+		super(timeOut);
+		this.speedUpTimeout = speedUpTimeout;
+	}
+
+	@Override
+	public void start() {
+		pullReady = false;
+		super.start();
+	}
+
+	@Override
+	protected void taskDone() {
+		pullReady = true;
+	}
+
+	public boolean isPullReady() {
+		return pullReady;
+	}
+
+	public void speedUp() {
+		originalTimeOut = getTimeOut();
+		speedUpActive = true;
+		setTimeOut(speedUpTimeout);
+		start();
+	}
+
+	public void slowDown() {
+		speedUpActive = false;
+		setTimeOut(originalTimeOut);
+	}
+}

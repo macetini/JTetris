@@ -6,7 +6,7 @@ public final class Config {
 
 	public static final String NAME = "JTetris";
 
-	public static final int ROWS = 20;
+	public static final int ROWS = 40;
 	public static final int COLUMNS = 14;
 
 	public static final int CELL_SIZE = 25;

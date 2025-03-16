@@ -5,23 +5,24 @@ import java.util.Arrays;
 
 import data.MovingPiece;
 import gui.Main;
+import logic.timer.PullTimer;
+import logic.timer.TimeDelay;
 import meta.Config;
 import meta.Tetraminos;
 
 public class Loop {
 	private Main gameFrame;
 	private Input input;
-	private Gravity pull;
+	private PullTimer gravity;
 	private Collision collision;
 
 	public Loop() {
 		gameFrame = new Main();
-
-		input = new Input(85, 50, 400);
+		input = new Input(85, 50, 110);
 		gameFrame.addKeyListener(input);
 
-		pull = new Gravity(800);
-		pull.start();
+		gravity = new PullTimer(800, 70);
+		gravity.start();
 
 		collision = new Collision();
 
@@ -71,21 +72,16 @@ public class Loop {
 	private boolean checkVerticalMovement(MovingPiece newPiece, int[][] data) {
 		if (input.getYInput() && !input.yDelayActive()) {
 			input.yDelayStart();
-			pull.interrupt();
-			newPiece.moveDown();
-			return collision.checkVerticalCoalision(newPiece, data);
+			if (!gravity.isSpeedUpActive()) {
+				gravity.speedUp();
+			}
 		} else {
-			if (!pull.isAlive()) {
-				pull.start();
+			if (gravity.isSpeedUpActive()) {
+				gravity.slowDown();
 			}
 		}
 
-		if (pull.isPullingDown()) {
-			newPiece.moveDown();
-			return collision.checkVerticalCoalision(newPiece, data);
-		}
-
-		return false;
+		return collision.checkVerticalCoalision(newPiece, data);
 	}
 
 	private GridData updateAndGetGridData(GridData gridData) {
@@ -93,6 +89,10 @@ public class Loop {
 
 		MovingPiece currentPiece = gridData.getCurrentPiece();
 		MovingPiece newPiece = currentPiece.clone();
+		if (gravity.isPullReady()) {
+			newPiece.moveDown();
+			gravity.start();
+		}
 
 		if (input.getRotate() && !input.rDelayActive()) {
 			input.rDelayStart();
@@ -166,6 +166,12 @@ public class Loop {
 		return gridData;
 	}
 
+	private void renderGridData(GridData gridData) {
+		if (gridData.isDirty()) {
+			gameFrame.dataProvider(gridData.getCombinedData());
+		}
+	}
+
 	private void run() {
 		GridData gridData = new GridData();
 
@@ -178,10 +184,7 @@ public class Loop {
 		while (true) {
 			gridData = removeFullRows(gridData);
 			gridData = updateAndGetGridData(gridData);
-
-			if (gridData.isDirty()) {
-				gameFrame.dataProvider(gridData.getCombinedData());
-			}
+			renderGridData(gridData);
 		}
 	}
 }

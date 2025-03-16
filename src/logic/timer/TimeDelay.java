@@ -6,6 +6,14 @@ public class TimeDelay extends Timer {
 	private DelayTask task;
 	private long timeOut;
 
+	public long getTimeOut() {
+		return timeOut;
+	}
+
+	public void setTimeOut(long timeOut) {
+		this.timeOut = timeOut;
+	}
+	
 	public boolean isRunning() {
 		return task != null && !task.isDone();
 	}
@@ -13,16 +21,21 @@ public class TimeDelay extends Timer {
 	public TimeDelay(long timeOut) {
 		this.timeOut = timeOut;
 	}
-
-	public void start() {
+	
+	public void stop() {
 		if (task != null) {
 			task.cancel();
 			task = null;
 		}
 		purge();
-
-		task = new DelayTask();
-		schedule(task, timeOut);
 	}
 
+	public void start() {
+		stop();
+		task = new DelayTask(this);
+		schedule(task, timeOut);
+	}
+	
+	protected void taskDone() {
+	}
 }

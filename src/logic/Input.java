@@ -21,21 +21,21 @@ public class Input implements KeyListener {
 		rotationDelay = new TimeDelay(rDelayTime);
 	}
 
-	public boolean xDelayActive() {
+	public boolean yDelayActive() {
 		return verticalDelay.isRunning();
 	}
 
-	public void xDelayStart() {		
+	public void yDelayStart() {		
 		if (!verticalDelay.isRunning()) {
 			verticalDelay.start();
 		}
 	}
 
-	public boolean yDelayActive() {
+	public boolean xDelayActive() {
 		return horizontalDelay.isRunning();
 	}
 
-	public void yDelayStart() {		
+	public void xDelayStart() {		
 		if (!horizontalDelay.isRunning()) {
 			horizontalDelay.start();
 		}
