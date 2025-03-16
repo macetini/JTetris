@@ -17,8 +17,8 @@ public class Loop {
 	public Loop() {
 		gameFrame = new Main();
 
-		input = new Input(85, 50);
-		gameFrame.addKeyListener(input);		
+		input = new Input(85, 50, 400);
+		gameFrame.addKeyListener(input);
 
 		pull = new Gravity(800);
 		pull.start();
@@ -44,13 +44,12 @@ public class Loop {
 		int[][] currentShape = piece.getShape();
 
 		int[][] combinedData = new int[Config.ROWS][Config.COLUMNS];
-		for (int i = 0; i < data.length; i++)
+		for (int i = 0; i < data.length; i++) {
 			combinedData[i] = Arrays.copyOf(data[i], data[i].length);
+		}
 
-		final int rowLength = currentShape.length;
-		for (int i = 0; i < rowLength; i++) {
-			final int columnLength = currentShape[i].length;
-			for (int j = 0; j < columnLength; j++) {
+		for (int i = 0; i < currentShape.length; i++) {
+			for (int j = 0; j < currentShape[i].length; j++) {
 				if (currentShape[i][j] != 0) {
 					combinedData[currentPosition.y + i][currentPosition.x + j] = currentShape[i][j];
 				}
@@ -73,7 +72,6 @@ public class Loop {
 		if (input.getYInput() && !input.yDelayActive()) {
 			input.yDelayStart();
 			pull.interrupt();
-
 			newPiece.moveDown();
 			return collision.checkVerticalCoalision(newPiece, data);
 		} else {
@@ -92,11 +90,12 @@ public class Loop {
 
 	private GridData updateAndGetGridData(GridData gridData) {
 		int[][] data = gridData.getData();
-		
+
 		MovingPiece currentPiece = gridData.getCurrentPiece();
 		MovingPiece newPiece = currentPiece.clone();
 
-		if (input.getRotate()) {
+		if (input.getRotate() && !input.rDelayActive()) {
+			input.rDelayStart();
 			newPiece.rotatate();
 
 			boolean rotationCollides = collision.collidesWithFloor(newPiece) || collision.collidesWithWall(newPiece)
@@ -119,7 +118,7 @@ public class Loop {
 			gridData.setDirty(false);
 			return gridData;
 		}
-		
+
 		if (!collidedVerticaly) {
 			currentPiece = newPiece;
 			gridData.setCurrentPiece(currentPiece);

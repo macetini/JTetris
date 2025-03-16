@@ -7,16 +7,18 @@ import logic.timer.TimeDelay;
 
 public class Input implements KeyListener {
 	private int xChange = 0;
-	private boolean yChangeActive = false;
+	private boolean yChangeActive = false;	
 
 	private boolean rotate = false;
 
 	private TimeDelay verticalDelay;
 	private TimeDelay horizontalDelay;
+	private TimeDelay rotationDelay;
 
-	public Input(long xDelayTime, long yDelayTime) {
+	public Input(long xDelayTime, long yDelayTime, long rDelayTime) {
 		verticalDelay = new TimeDelay(xDelayTime);
 		horizontalDelay = new TimeDelay(yDelayTime);
+		rotationDelay = new TimeDelay(rDelayTime);
 	}
 
 	public boolean xDelayActive() {
@@ -36,6 +38,16 @@ public class Input implements KeyListener {
 	public void yDelayStart() {		
 		if (!horizontalDelay.isRunning()) {
 			horizontalDelay.start();
+		}
+	}
+	
+	public boolean rDelayActive() {
+		return rotationDelay.isRunning();
+	}
+
+	public void rDelayStart() {		
+		if (!rotationDelay.isRunning()) {
+			rotationDelay.start();
 		}
 	}
 
@@ -72,20 +84,22 @@ public class Input implements KeyListener {
 			break;
 		case KeyEvent.VK_DOWN:			
 			yChangeActive = true;
-			break;
-		case KeyEvent.VK_SPACE:
+			break;		
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_DOWN:			
-			yChangeActive = false;
-			break;
 		case KeyEvent.VK_LEFT:
 		case KeyEvent.VK_RIGHT:
 			xChange = 0;
+			break;
+		case KeyEvent.VK_UP:
+			rotate = false;
+			break;
+		case KeyEvent.VK_DOWN:			
+			yChangeActive = false;
 			break;
 		}
 	}
