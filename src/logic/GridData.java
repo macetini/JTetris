@@ -3,10 +3,10 @@ package logic;
 import data.MovingPiece;
 
 public class GridData {
-
 	private MovingPiece currentPiece;
 	private int[][] data;
 	private int[][] combinedData;
+	private boolean dirty;
 
 	public int[][] getData() {
 		return data;
@@ -30,6 +30,14 @@ public class GridData {
 
 	public void setCurrentPiece(MovingPiece currentPiece) {
 		this.currentPiece = currentPiece;
+	}
+
+	public boolean isDirty() {
+		return dirty;
+	}
+
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
 	}
 
 }

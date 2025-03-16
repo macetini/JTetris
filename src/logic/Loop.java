@@ -11,19 +11,14 @@ import meta.Tetraminos;
 public class Loop {
 	private Main gameFrame;
 	private Input input;
-
-	private MovingPiece currentPiece;
-
 	private Gravity pull;
 	private Collision collision;
 
 	public Loop() {
 		gameFrame = new Main();
 
-		input = new Input(85, 70);
-		gameFrame.addKeyListener(input);
-
-		createNewMovingPiece();
+		input = new Input(85, 50);
+		gameFrame.addKeyListener(input);		
 
 		pull = new Gravity(800);
 		pull.start();
@@ -33,13 +28,15 @@ public class Loop {
 		run();
 	}
 
-	private void createNewMovingPiece() {
-		currentPiece = new MovingPiece();
+	private MovingPiece getNewMovingPiece() {
+		MovingPiece newPiece = new MovingPiece();
 
 		int randIndex = (int) Math.floor(Math.random() * Tetraminos.DATA.length);
-		currentPiece.setShapes(Tetraminos.DATA[randIndex]);
+		newPiece.setShapes(Tetraminos.DATA[randIndex]);
 
-		currentPiece.setPosition(Config.INIT_POSITION);
+		newPiece.setPosition(Config.INIT_POSITION);
+
+		return newPiece;
 	}
 
 	private int[][] addMovingPieceToData(MovingPiece piece, int[][] data) {
@@ -93,9 +90,10 @@ public class Loop {
 		return false;
 	}
 
-	private GridData updateAndRenderGrid(GridData gridData) {
+	private GridData updateAndGetGridData(GridData gridData) {
 		int[][] data = gridData.getData();
-
+		
+		MovingPiece currentPiece = gridData.getCurrentPiece();
 		MovingPiece newPiece = currentPiece.clone();
 
 		if (input.getRotate()) {
@@ -116,18 +114,23 @@ public class Loop {
 
 		boolean collidedVerticaly = checkVerticalMovement(newPiece, data);
 
+		gridData.setDirty(true);
 		if (currentPiece.getPosition().y != 0 && currentPiece.identical(newPiece)) {
+			gridData.setDirty(false);
 			return gridData;
 		}
+		
 		if (!collidedVerticaly) {
 			currentPiece = newPiece;
+			gridData.setCurrentPiece(currentPiece);
 		}
 
 		int[][] combinedData = addMovingPieceToData(currentPiece, data);
 		gridData.setCombinedData(combinedData);
 
 		if (collidedVerticaly) {
-			createNewMovingPiece();
+			currentPiece = getNewMovingPiece();
+			gridData.setCurrentPiece(currentPiece);
 			gridData.setData(combinedData);
 			return gridData;
 		}
@@ -166,13 +169,20 @@ public class Loop {
 
 	private void run() {
 		GridData gridData = new GridData();
+
+		MovingPiece currentPiece = getNewMovingPiece();
+		gridData.setCurrentPiece(currentPiece);
+
 		int[][] emptyData = new int[Config.ROWS][Config.COLUMNS];
 		gridData.setData(emptyData);
 
 		while (true) {
 			gridData = removeFullRows(gridData);
-			gridData = updateAndRenderGrid(gridData);
-			gameFrame.dataProvider(gridData.getCombinedData());
+			gridData = updateAndGetGridData(gridData);
+
+			if (gridData.isDirty()) {
+				gameFrame.dataProvider(gridData.getCombinedData());
+			}
 		}
 	}
 }
