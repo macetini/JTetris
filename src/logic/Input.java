@@ -11,24 +11,12 @@ public class Input implements KeyListener {
 
 	private boolean rotate = false;
 
-	private TimeDelay verticalDelay;
 	private TimeDelay horizontalDelay;
 	private TimeDelay rotationDelay;
 
-	public Input(long xDelayTime, long yDelayTime, long rDelayTime) {
-		verticalDelay = new TimeDelay(xDelayTime);
-		horizontalDelay = new TimeDelay(yDelayTime);
+	public Input(long xDelayTime, long rDelayTime) {
+		horizontalDelay = new TimeDelay(xDelayTime);
 		rotationDelay = new TimeDelay(rDelayTime);
-	}
-
-	public boolean yDelayActive() {
-		return verticalDelay.isRunning();
-	}
-
-	public void yDelayStart() {		
-		if (!verticalDelay.isRunning()) {
-			verticalDelay.start();
-		}
 	}
 
 	public boolean xDelayActive() {

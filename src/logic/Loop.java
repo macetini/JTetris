@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import data.MovingPiece;
 import gui.Main;
-import logic.timer.PullTimer;
+import logic.timer.PullDelay;
 import logic.timer.TimeDelay;
 import meta.Config;
 import meta.Tetraminos;
@@ -13,16 +13,16 @@ import meta.Tetraminos;
 public class Loop {
 	private Main gameFrame;
 	private Input input;
-	private PullTimer gravity;
+	private PullDelay pullDelay;
 	private Collision collision;
 
 	public Loop() {
 		gameFrame = new Main();
-		input = new Input(85, 50, 110);
+		input = new Input(Config.X_DELAY_TIME, Config.R_DELAY_TIME);
 		gameFrame.addKeyListener(input);
 
-		gravity = new PullTimer(800, 70);
-		gravity.start();
+		pullDelay = new PullDelay(Config.PULL_TIMEOUT, Config.PULL_STRONGER_TIMEOUT);
+		pullDelay.start();
 
 		collision = new Collision();
 
@@ -70,14 +70,13 @@ public class Loop {
 	}
 
 	private boolean checkVerticalMovement(MovingPiece newPiece, int[][] data) {
-		if (input.getYInput() && !input.yDelayActive()) {
-			input.yDelayStart();
-			if (!gravity.isSpeedUpActive()) {
-				gravity.speedUp();
+		if (input.getYInput()) {			
+			if (!pullDelay.isSpeedUpActive()) {
+				pullDelay.speedUp();
 			}
 		} else {
-			if (gravity.isSpeedUpActive()) {
-				gravity.slowDown();
+			if (pullDelay.isSpeedUpActive()) {
+				pullDelay.slowDown();
 			}
 		}
 
@@ -89,9 +88,11 @@ public class Loop {
 
 		MovingPiece currentPiece = gridData.getCurrentPiece();
 		MovingPiece newPiece = currentPiece.clone();
-		if (gravity.isPullReady()) {
+		if (pullDelay.isPullReady()) {
+			if (!pullDelay.isRunning()) {
+				pullDelay.start();
+			}
 			newPiece.moveDown();
-			gravity.start();
 		}
 
 		if (input.getRotate() && !input.rDelayActive()) {

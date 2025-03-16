@@ -1,6 +1,6 @@
 package logic.timer;
 
-public class PullTimer extends TimeDelay {
+public class PullDelay extends TimeDelay {
 	private boolean pullReady;
 	private long originalTimeOut;
 	private long speedUpTimeout;
@@ -10,7 +10,7 @@ public class PullTimer extends TimeDelay {
 		return speedUpActive;
 	}
 
-	public PullTimer(long timeOut, long speedUpTimeout) {
+	public PullDelay(long timeOut, long speedUpTimeout) {
 		super(timeOut);
 		this.speedUpTimeout = speedUpTimeout;
 	}
@@ -22,7 +22,7 @@ public class PullTimer extends TimeDelay {
 	}
 
 	@Override
-	protected void taskDone() {
+	protected void taskDone() {		
 		pullReady = true;
 	}
 
@@ -33,7 +33,7 @@ public class PullTimer extends TimeDelay {
 	public void speedUp() {
 		originalTimeOut = getTimeOut();
 		speedUpActive = true;
-		setTimeOut(speedUpTimeout);
+		setTimeOut(speedUpTimeout);		
 		start();
 	}
 
