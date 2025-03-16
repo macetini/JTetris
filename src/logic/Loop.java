@@ -1,0 +1,178 @@
+package logic;
+
+import java.awt.Point;
+import java.util.Arrays;
+
+import data.MovingPiece;
+import gui.Main;
+import meta.Config;
+import meta.Tetraminos;
+
+public class Loop {
+	private Main gameFrame;
+	private Input input;
+
+	private MovingPiece currentPiece;
+
+	private Gravity pull;
+	private Collision collision;
+
+	public Loop() {
+		gameFrame = new Main();
+
+		input = new Input(85, 70);
+		gameFrame.addKeyListener(input);
+
+		createNewMovingPiece();
+
+		pull = new Gravity(800);
+		pull.start();
+
+		collision = new Collision();
+
+		run();
+	}
+
+	private void createNewMovingPiece() {
+		currentPiece = new MovingPiece();
+
+		int randIndex = (int) Math.floor(Math.random() * Tetraminos.DATA.length);
+		currentPiece.setShapes(Tetraminos.DATA[randIndex]);
+
+		currentPiece.setPosition(Config.INIT_POSITION);
+	}
+
+	private int[][] addMovingPieceToData(MovingPiece piece, int[][] data) {
+		Point currentPosition = piece.getPosition();
+		int[][] currentShape = piece.getShape();
+
+		int[][] combinedData = new int[Config.ROWS][Config.COLUMNS];
+		for (int i = 0; i < data.length; i++)
+			combinedData[i] = Arrays.copyOf(data[i], data[i].length);
+
+		final int rowLength = currentShape.length;
+		for (int i = 0; i < rowLength; i++) {
+			final int columnLength = currentShape[i].length;
+			for (int j = 0; j < columnLength; j++) {
+				if (currentShape[i][j] != 0) {
+					combinedData[currentPosition.y + i][currentPosition.x + j] = currentShape[i][j];
+				}
+			}
+		}
+		return combinedData;
+	}
+
+	private boolean checkHorizontalMovement(MovingPiece newPiece, int[][] data) {
+		int xChange = input.getXInput();
+		if (xChange != 0 && !input.xDelayActive()) {
+			input.xDelayStart();
+			newPiece.getPosition().x += xChange;
+			return collision.checkHorizontalCoalision(newPiece, data);
+		}
+		return false;
+	}
+
+	private boolean checkVerticalMovement(MovingPiece newPiece, int[][] data) {
+		if (input.getYInput() && !input.yDelayActive()) {
+			input.yDelayStart();
+			pull.interrupt();
+
+			newPiece.moveDown();
+			return collision.checkVerticalCoalision(newPiece, data);
+		} else {
+			if (!pull.isAlive()) {
+				pull.start();
+			}
+		}
+
+		if (pull.isPullingDown()) {
+			newPiece.moveDown();
+			return collision.checkVerticalCoalision(newPiece, data);
+		}
+
+		return false;
+	}
+
+	private GridData updateAndRenderGrid(GridData gridData) {
+		int[][] data = gridData.getData();
+
+		MovingPiece newPiece = currentPiece.clone();
+
+		if (input.getRotate()) {
+			newPiece.rotatate();
+
+			boolean rotationCollides = collision.collidesWithFloor(newPiece) || collision.collidesWithWall(newPiece)
+					|| collision.collidesWithGridData(newPiece, data);
+
+			if (rotationCollides) {
+				newPiece = currentPiece.clone();
+			}
+		}
+
+		boolean collidedHorizontaly = checkHorizontalMovement(newPiece, data);
+		if (collidedHorizontaly) {
+			return gridData;
+		}
+
+		boolean collidedVerticaly = checkVerticalMovement(newPiece, data);
+
+		if (currentPiece.getPosition().y != 0 && currentPiece.identical(newPiece)) {
+			return gridData;
+		}
+		if (!collidedVerticaly) {
+			currentPiece = newPiece;
+		}
+
+		int[][] combinedData = addMovingPieceToData(currentPiece, data);
+		gridData.setCombinedData(combinedData);
+
+		if (collidedVerticaly) {
+			createNewMovingPiece();
+			gridData.setData(combinedData);
+			return gridData;
+		}
+
+		gridData.setData(data);
+		return gridData;
+	}
+
+	private GridData removeFullRows(GridData gridData) {
+		int[][] data = gridData.getData();
+		int[][] cleanData = new int[Config.ROWS][Config.COLUMNS];
+
+		int k = data.length - 1;
+
+		for (int i = data.length - 1; i >= 0; i--) {
+			boolean fullRow = true;
+
+			for (int j = data[i].length - 1; j >= 0; j--) {
+				int cellData = data[i][j];
+				if (cellData == 0) {
+					fullRow = false;
+					break;
+				}
+			}
+
+			if (!fullRow) {
+				for (int m = 0; m < data[i].length; m++) {
+					cleanData[k][m] = data[i][m];
+				}
+				k--;
+			}
+		}
+		gridData.setData(cleanData);
+		return gridData;
+	}
+
+	private void run() {
+		GridData gridData = new GridData();
+		int[][] emptyData = new int[Config.ROWS][Config.COLUMNS];
+		gridData.setData(emptyData);
+
+		while (true) {
+			gridData = removeFullRows(gridData);
+			gridData = updateAndRenderGrid(gridData);
+			gameFrame.dataProvider(gridData.getCombinedData());
+		}
+	}
+}
