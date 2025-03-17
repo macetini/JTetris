@@ -2,15 +2,15 @@ package meta;
 
 public final class Tetraminos {
 	
-	public static final int[][][][] DATA = { 
-			{ // CUBE
+	public static final int[][][][] SHAPES = { 
+			{ // O
 				{ 
 					{ 1, 1 },					
 					{ 1, 1 } 
 				} 
 			}			
 			, 			
-			{  // LINE
+			{  // I
 				{
 					{ 0, 1, 0, 0 },					
 					{ 0, 1, 0, 0 },					
@@ -26,7 +26,7 @@ public final class Tetraminos {
 				}
 			}			
 			,			
-			{ // S
+			{ // Z
 				{ 
 					{ 1, 1, 0 },					
 					{ 0, 1, 1 },
@@ -40,7 +40,7 @@ public final class Tetraminos {
 				}
 			}			
 			,			
-			{ // S Inverted
+			{ // S
 				{ 					
 					{ 0, 1, 1 },
 					{ 1, 1, 0 },
@@ -94,9 +94,9 @@ public final class Tetraminos {
 				}
 				,
 				{ 
-					{ 1, 1, 0 },					
-					{ 0, 1, 0 },
-					{ 0, 1, 0 }
+					{ 0, 1, 1 },					
+					{ 0, 0, 1 },
+					{ 0, 0, 1 }
 				}
 				,
 				{ 					

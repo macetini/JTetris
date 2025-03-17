@@ -4,6 +4,7 @@ import java.awt.Insets;
 
 import javax.swing.JFrame;
 
+import meta.Colors;
 import meta.Config;
 
 @SuppressWarnings("serial")
@@ -30,6 +31,8 @@ public class Main extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
+		
+		getContentPane().setBackground(Colors.BACKGROUND_COLOR);		
 
 		grid = new Grid();
 		add(grid);		

@@ -1,9 +1,7 @@
-package logic;
-
-import data.MovingPiece;
+package data;
 
 public class GridData {
-	private MovingPiece currentPiece;
+	private MovingPieceData currentPiece;
 	private int[][] data;
 	private int[][] combinedData;
 	private boolean dirty;
@@ -24,11 +22,11 @@ public class GridData {
 		this.combinedData = combinedData;
 	}
 
-	public MovingPiece getCurrentPiece() {
+	public MovingPieceData getCurrentPiece() {
 		return currentPiece;
 	}
 
-	public void setCurrentPiece(MovingPiece currentPiece) {
+	public void setCurrentPiece(MovingPieceData currentPiece) {
 		this.currentPiece = currentPiece;
 	}
 

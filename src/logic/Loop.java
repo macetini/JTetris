@@ -3,10 +3,11 @@ package logic;
 import java.awt.Point;
 import java.util.Arrays;
 
-import data.MovingPiece;
+import data.GridData;
+import data.MovingPieceData;
 import gui.Main;
 import logic.timer.PullDelay;
-import logic.timer.TimeDelay;
+import meta.Colors;
 import meta.Config;
 import meta.Tetraminos;
 
@@ -29,18 +30,21 @@ public class Loop {
 		run();
 	}
 
-	private MovingPiece getNewMovingPiece() {
-		MovingPiece newPiece = new MovingPiece();
-
-		int randIndex = (int) Math.floor(Math.random() * Tetraminos.DATA.length);
-		newPiece.setShapes(Tetraminos.DATA[randIndex]);
-
+	private MovingPieceData getNewMovingPiece() {
+		MovingPieceData newPiece = new MovingPieceData();
+		
+		int randIndex = (int) Math.floor(Math.random() * Tetraminos.SHAPES.length);
+		newPiece.setShapes(Tetraminos.SHAPES[randIndex]);
+		
+		int colorIndex = (int) Math.floor(Math.random() * Colors.SHAPE_COLORS.length);
+		newPiece.setColor(colorIndex);
+		
 		newPiece.setPosition(Config.INIT_POSITION);
 
 		return newPiece;
 	}
 
-	private int[][] addMovingPieceToData(MovingPiece piece, int[][] data) {
+	private int[][] addMovingPieceToData(MovingPieceData piece, int[][] data) {
 		Point currentPosition = piece.getPosition();
 		int[][] currentShape = piece.getShape();
 
@@ -59,7 +63,7 @@ public class Loop {
 		return combinedData;
 	}
 
-	private boolean checkHorizontalMovement(MovingPiece newPiece, int[][] data) {
+	private boolean checkHorizontalMovement(MovingPieceData newPiece, int[][] data) {
 		int xChange = input.getXInput();
 		if (xChange != 0 && !input.xDelayActive()) {
 			input.xDelayStart();
@@ -69,7 +73,7 @@ public class Loop {
 		return false;
 	}
 
-	private boolean checkVerticalMovement(MovingPiece newPiece, int[][] data) {
+	private boolean checkVerticalMovement(MovingPieceData newPiece, int[][] data) {
 		if (input.getYInput()) {			
 			if (!pullDelay.isSpeedUpActive()) {
 				pullDelay.speedUp();
@@ -86,8 +90,8 @@ public class Loop {
 	private GridData updateAndGetGridData(GridData gridData) {
 		int[][] data = gridData.getData();
 
-		MovingPiece currentPiece = gridData.getCurrentPiece();
-		MovingPiece newPiece = currentPiece.clone();
+		MovingPieceData currentPiece = gridData.getCurrentPiece();
+		MovingPieceData newPiece = currentPiece.clone();
 		if (pullDelay.isPullReady()) {
 			if (!pullDelay.isRunning()) {
 				pullDelay.start();
@@ -115,7 +119,7 @@ public class Loop {
 		boolean collidedVerticaly = checkVerticalMovement(newPiece, data);
 
 		gridData.setDirty(true);
-		if (currentPiece.getPosition().y != 0 && currentPiece.identical(newPiece)) {
+		if (currentPiece.getPosition().y != 0 && currentPiece.isIdentical(newPiece)) {
 			gridData.setDirty(false);
 			return gridData;
 		}
@@ -123,14 +127,16 @@ public class Loop {
 		if (!collidedVerticaly) {
 			currentPiece = newPiece;
 			gridData.setCurrentPiece(currentPiece);
-		}
-
-		int[][] combinedData = addMovingPieceToData(currentPiece, data);
-		gridData.setCombinedData(combinedData);
-
-		if (collidedVerticaly) {
+			
+			int[][] combinedData = addMovingPieceToData(currentPiece, data);
+			gridData.setCombinedData(combinedData);
+		} else {
+			int[][] combinedData = addMovingPieceToData(currentPiece, data);
+			gridData.setCombinedData(combinedData);
+			
 			currentPiece = getNewMovingPiece();
 			gridData.setCurrentPiece(currentPiece);
+			
 			gridData.setData(combinedData);
 			return gridData;
 		}
@@ -176,7 +182,7 @@ public class Loop {
 	private void run() {
 		GridData gridData = new GridData();
 
-		MovingPiece currentPiece = getNewMovingPiece();
+		MovingPieceData currentPiece = getNewMovingPiece();
 		gridData.setCurrentPiece(currentPiece);
 
 		int[][] emptyData = new int[Config.ROWS][Config.COLUMNS];

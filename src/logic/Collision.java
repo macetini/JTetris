@@ -2,12 +2,12 @@ package logic;
 
 import java.awt.Point;
 
-import data.MovingPiece;
+import data.MovingPieceData;
 import meta.Config;
 
 public class Collision {
 
-	public boolean collidesWithGridData(MovingPiece newPiece, int[][] data) {
+	public boolean collidesWithGridData(MovingPieceData newPiece, int[][] data) {
 		Point newPosition = newPiece.getPosition();
 		int[][] currentShape = newPiece.getShape();
 
@@ -24,7 +24,7 @@ public class Collision {
 		return false;
 	}
 
-	public boolean collidesWithFloor(MovingPiece newPiece) {
+	public boolean collidesWithFloor(MovingPieceData newPiece) {
 		Point newPosition = newPiece.getPosition();
 		int[][] currentShape = newPiece.getShape();
 		
@@ -42,11 +42,11 @@ public class Collision {
 		return false;
 	}
 
-	public boolean checkVerticalCoalision(MovingPiece newPiece, int[][] data) {
+	public boolean checkVerticalCoalision(MovingPieceData newPiece, int[][] data) {
 		return (collidesWithFloor(newPiece) || collidesWithGridData(newPiece, data));
 	}
 
-	public boolean collidesWithWall(MovingPiece newPiece) {
+	public boolean collidesWithWall(MovingPieceData newPiece) {
 		Point newPosition = newPiece.getPosition();
 		int[][] currentShape = newPiece.getShape();
 
@@ -64,7 +64,7 @@ public class Collision {
 		return false;
 	}
 
-	public boolean checkHorizontalCoalision(MovingPiece newPiece, int[][] data) {
+	public boolean checkHorizontalCoalision(MovingPieceData newPiece, int[][] data) {
 		return (collidesWithWall(newPiece) || collidesWithGridData(newPiece, data));
 	}
 }
