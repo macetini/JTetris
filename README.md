@@ -1,5 +1,5 @@
 Java 8 Tetris
 
-A simple bare bones Java. Swing for GUI and no additional frameworks.
+A simple bare bones Java. Swing for GUI and no additional externa libraries.
 
-![tetris](https://github.com/user-attachments/assets/6d3ea6da-5d5b-4be0-a90c-93e811cd64ba)
+![tetris](https://github.com/user-attachments/assets/6442ac89-50ba-44cd-9992-8407dcb99e1c)
