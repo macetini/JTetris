@@ -10,17 +10,21 @@ import meta.Config;
 
 @SuppressWarnings("serial")
 public class Grid extends JPanel {
-	
+
 	public Grid() {
+		int width = Config.CELL_SIZE * Config.COLUMNS + Config.GRID_PADDING_DOUBLE;
+		int height = Config.CELL_SIZE * Config.ROWS + Config.GRID_PADDING_DOUBLE * 2;
+		setSize(width, height);		
+		
 		setBackground(Colors.BACKGROUND_COLOR);
 	}
-	
+
 	private int[][] data;
 
 	@SuppressWarnings("unused")
 	private void drawDebugGrid(Graphics2D g2) {
 		g2.setColor(Colors.DEBUG_GRID_COLOR);
-		
+
 		for (int i = 0; i < Config.ROWS; i++) {
 			for (int j = 0; j < Config.COLUMNS; j++) {
 				int cellX = j * Config.CELL_SIZE + Config.GRID_PADDING;
@@ -33,7 +37,7 @@ public class Grid extends JPanel {
 
 	private void fillAllRectangles(Graphics2D g2, int colorIndex) {
 		g2.setColor(Colors.SHAPE_COLORS[colorIndex - 1]);
-		
+
 		for (int i = 0; i < data.length; i++) {
 			for (int j = 0; j < data[i].length; j++) {
 				int cellData = data[i][j];
@@ -48,7 +52,7 @@ public class Grid extends JPanel {
 
 	private void drawAllRectangles(Graphics2D g2) {
 		g2.setColor(Colors.SHAPE_RECT_COLOR);
-		
+
 		for (int i = 0; i < data.length; i++) {
 			for (int j = 0; j < data[i].length; j++) {
 				if (data[i][j] != 0) {
@@ -74,12 +78,13 @@ public class Grid extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 		super.paintComponent(g);
 
-		//drawDebugGrid(g2);
+		drawDebugGrid(g2);
 		drawData(g2);
 	}
 
-	public void dataProvider(int[][] data) {
+	public void setData(int[][] data) {
 		this.data = data;
 		repaint(getVisibleRect());
 	}
+
 }
