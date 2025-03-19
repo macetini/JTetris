@@ -5,9 +5,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.JFrame;
 
-import meta.Colors;
 import meta.Config;
 
 @SuppressWarnings("serial")
@@ -16,11 +16,6 @@ public class GameFrame extends JFrame implements KeyListener {
 	private MainPanel leftPanel;
 	private MainPanel rightPanel;
 	private Grid grid;
-
-//	@Override
-//	public Insets getInsets() {
-//		return new Insets(Config.GRID_PADDING_DOUBLE, 0, 0, 0);
-//	}
 
 	public GameFrame() {
 		super(Config.NAME);
@@ -34,7 +29,7 @@ public class GameFrame extends JFrame implements KeyListener {
 		setSize(frameWidth, frameHeight);
 
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
-		//getContentPane().setBackground(Colors.BACKGROUND_COLOR);
+		// getContentPane().setBackground(Colors.BACKGROUND_COLOR);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -42,50 +37,33 @@ public class GameFrame extends JFrame implements KeyListener {
 	}
 
 	private void addComponenets() {
+		Container pane = getContentPane();
+
+		GroupLayout layout = new GroupLayout(pane);
+		layout.setAutoCreateGaps(true);
+		layout.setAutoCreateContainerGaps(true);
+		pane.setLayout(layout);
+
 		leftPanel = new MainPanel();
 		rightPanel = new MainPanel();
 
-		Container pane = getContentPane();
-		
-		GroupLayout groupLayout = new GroupLayout(pane);
-		groupLayout.setAutoCreateGaps(true);
-		groupLayout.setAutoCreateContainerGaps(true);
-        pane.setLayout(groupLayout); 
-
 		grid = new Grid();
 
-		groupLayout.setHorizontalGroup(
-				groupLayout.createSequentialGroup()
-					.addComponent(leftPanel)
-					.addComponent(grid)
-					.addComponent(rightPanel)	
-					
-//						.addGroup
-//						(
-//							groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
-//							.addComponent(grid)
-//							//.addComponent(mainPanel)
-//						)
-					);
+		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+		hGroup.addGroup(layout.createParallelGroup().addComponent(leftPanel));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(grid));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(rightPanel));
+		layout.setHorizontalGroup(hGroup);
 
-		groupLayout.setVerticalGroup(
-				groupLayout.createParallelGroup()
-					.addComponent(leftPanel)
-					.addComponent(grid)
-					.addComponent(rightPanel)
-					
-//					.addGroup
-//					(
-//							groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
-//							.addComponent(grid)
-//							//.addComponent(mainPanel)
-//					)
-				);
-		
+		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+		ParallelGroup parallelGroup = layout.createParallelGroup(GroupLayout.Alignment.CENTER);
+		parallelGroup.addComponent(leftPanel);
+		parallelGroup.addComponent(grid);
+		parallelGroup.addComponent(rightPanel);		
+		vGroup.addGroup(parallelGroup);
+		layout.setVerticalGroup(vGroup);
+
 		pack();
-
-//		mainPanel.setLayout(groupLayout);
-//		getContentPane().add(mainPanel, BorderLayout.CENTER);
 	}
 
 	public void dataProvider(int[][] data) {
@@ -108,5 +86,4 @@ public class GameFrame extends JFrame implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 	}
-
 }

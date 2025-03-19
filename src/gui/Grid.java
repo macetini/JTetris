@@ -21,7 +21,7 @@ public class Grid extends JPanel {
 
 	private int[][] data;
 
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	private void drawDebugGrid(Graphics2D g2) {
 		g2.setColor(Colors.DEBUG_GRID_COLOR);
 
