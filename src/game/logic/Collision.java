@@ -1,9 +1,9 @@
-package logic;
+package game.logic;
 
 import java.awt.Point;
 
 import data.MovingPieceData;
-import meta.Config;
+import game.meta.Config;
 
 public class Collision {
 

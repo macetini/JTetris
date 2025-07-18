@@ -1,9 +1,9 @@
-package logic;
+package game.logic;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import logic.timer.TimeDelay;
+import game.logic.timer.TimeDelay;
 
 public class Input implements KeyListener {
 	private int xChange = 0;

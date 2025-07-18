@@ -1,15 +1,15 @@
-package logic;
+package game.logic;
 
 import java.awt.Point;
 import java.util.Arrays;
 
 import data.GridData;
 import data.MovingPieceData;
-import gui.GameFrame;
-import logic.timer.PullDelay;
-import meta.Colors;
-import meta.Config;
-import meta.Tetraminos;
+import game.gui.GameFrame;
+import game.logic.timer.PullDelay;
+import game.meta.Colors;
+import game.meta.Config;
+import game.meta.Tetraminos;
 
 public class GameLoop {
 	private GameFrame gameFrame;
@@ -92,7 +92,7 @@ public class GameLoop {
 		int[][] data = gridData.getData();
 
 		MovingPieceData currentPiece = gridData.getCurrentPiece();
-		MovingPieceData newPiece = currentPiece.clone();
+		MovingPieceData newPiece = new MovingPieceData(currentPiece);
 		if (pullDelay.isPullReady()) {
 			if (!pullDelay.isRunning()) {
 				pullDelay.start();
@@ -108,7 +108,7 @@ public class GameLoop {
 					|| collision.collidesWithGridData(newPiece, data);
 
 			if (rotationCollides) {
-				newPiece = currentPiece.clone();
+				newPiece =  new MovingPieceData(currentPiece);
 			}
 		}
 

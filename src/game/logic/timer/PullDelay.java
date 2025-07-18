@@ -1,4 +1,4 @@
-package logic.timer;
+package game.logic.timer;
 
 public class PullDelay extends TimeDelay {
 	private boolean pullReady;

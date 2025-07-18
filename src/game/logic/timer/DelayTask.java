@@ -1,4 +1,4 @@
-package logic.timer;
+package game.logic.timer;
 
 import java.util.TimerTask;
 

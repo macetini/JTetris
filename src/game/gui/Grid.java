@@ -1,12 +1,12 @@
-package gui;
+package game.gui;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import meta.Colors;
-import meta.Config;
+import game.meta.Colors;
+import game.meta.Config;
 
 @SuppressWarnings("serial")
 public class Grid extends JPanel {

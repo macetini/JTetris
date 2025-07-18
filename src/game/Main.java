@@ -1,4 +1,6 @@
-import logic.GameLoop;
+package game;
+
+import game.logic.GameLoop;
 
 public class Main {
 

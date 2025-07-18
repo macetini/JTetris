@@ -1,4 +1,4 @@
-package meta;
+package game.meta;
 
 import java.awt.Color;
 

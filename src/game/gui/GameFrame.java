@@ -1,11 +1,11 @@
-package gui;
+package game.gui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
-import meta.Config;
+import game.meta.Config;
 
 @SuppressWarnings("serial")
 public class GameFrame extends JFrame implements KeyListener {
