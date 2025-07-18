@@ -2,7 +2,7 @@ package game.logic;
 
 import java.awt.Point;
 
-import data.MovingPieceData;
+import game.data.MovingPieceData;
 import game.meta.Config;
 
 public class Collision {

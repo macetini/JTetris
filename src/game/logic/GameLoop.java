@@ -3,8 +3,8 @@ package game.logic;
 import java.awt.Point;
 import java.util.Arrays;
 
-import data.GridData;
-import data.MovingPieceData;
+import game.data.GridData;
+import game.data.MovingPieceData;
 import game.gui.GameFrame;
 import game.logic.timer.PullDelay;
 import game.meta.Colors;
