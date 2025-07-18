@@ -11,14 +11,15 @@ import meta.Colors;
 import meta.Config;
 import meta.Tetraminos;
 
-public class Loop {
+public class GameLoop {
 	private GameFrame gameFrame;
 	private Input input;
 	private PullDelay pullDelay;
 	private Collision collision;
 
-	public Loop() {
+	public GameLoop() {
 		gameFrame = new GameFrame();
+		
 		input = new Input(Config.X_DELAY_TIME, Config.R_DELAY_TIME);
 		gameFrame.addKeyListener(input);
 

@@ -11,7 +11,6 @@ public final class Config {
 	public static final int CELL_SIZE = 35;
 
 	public static final int GRID_PADDING = 10;
-	public static final int GRID_PADDING_DOUBLE = GRID_PADDING * 2;
 
 	public static final Point INIT_POSITION = new Point(6, 0);
 

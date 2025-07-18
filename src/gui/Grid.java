@@ -12,16 +12,12 @@ import meta.Config;
 public class Grid extends JPanel {
 
 	public Grid() {
-		int width = Config.CELL_SIZE * Config.COLUMNS + Config.GRID_PADDING_DOUBLE;
-		int height = Config.CELL_SIZE * Config.ROWS + Config.GRID_PADDING_DOUBLE * 2;
-		setSize(width, height);		
-		
 		setBackground(Colors.BACKGROUND_COLOR);
 	}
 
 	private int[][] data;
 
-	//@SuppressWarnings("unused")
+	// @SuppressWarnings("unused")
 	private void drawDebugGrid(Graphics2D g2) {
 		g2.setColor(Colors.DEBUG_GRID_COLOR);
 
