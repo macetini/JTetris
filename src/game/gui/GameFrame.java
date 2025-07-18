@@ -36,18 +36,18 @@ public class GameFrame extends JFrame implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		// No implementation necessary. Not used.
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_ESCAPE:
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			dispose();
-			break;
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		// No implementation necessary. Not used.
 	}
 }

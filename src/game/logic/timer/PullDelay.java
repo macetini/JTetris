@@ -21,11 +21,6 @@ public class PullDelay extends TimeDelay {
 		super.start();
 	}
 
-	@Override
-	protected void taskDone() {		
-		pullReady = true;
-	}
-
 	public boolean isPullReady() {
 		return pullReady;
 	}
@@ -40,5 +35,10 @@ public class PullDelay extends TimeDelay {
 	public void slowDown() {
 		speedUpActive = false;
 		setTimeOut(originalTimeOut);
+	}
+	
+	@Override
+	protected void taskDone() {		
+		pullReady = true;
 	}
 }

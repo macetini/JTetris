@@ -7,7 +7,7 @@ import game.logic.timer.TimeDelay;
 
 public class Input implements KeyListener {
 	private int xChange = 0;
-	private boolean yChangeActive = false;	
+	private boolean yChangeActive = false;
 
 	private boolean rotate = false;
 
@@ -23,17 +23,17 @@ public class Input implements KeyListener {
 		return horizontalDelay.isRunning();
 	}
 
-	public void xDelayStart() {		
+	public void xDelayStart() {
 		if (!horizontalDelay.isRunning()) {
 			horizontalDelay.start();
 		}
 	}
-	
+
 	public boolean rDelayActive() {
 		return rotationDelay.isRunning();
 	}
 
-	public void rDelayStart() {		
+	public void rDelayStart() {
 		if (!rotationDelay.isRunning()) {
 			rotationDelay.start();
 		}
@@ -56,6 +56,7 @@ public class Input implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		//Required for KeyListener interface. Not used.  
 	}
 
 	@Override
@@ -70,9 +71,10 @@ public class Input implements KeyListener {
 		case KeyEvent.VK_UP:
 			rotate = true;
 			break;
-		case KeyEvent.VK_DOWN:			
+		case KeyEvent.VK_DOWN:
 			yChangeActive = true;
-			break;		
+			break;
+		default:
 		}
 	}
 
@@ -86,9 +88,10 @@ public class Input implements KeyListener {
 		case KeyEvent.VK_UP:
 			rotate = false;
 			break;
-		case KeyEvent.VK_DOWN:			
+		case KeyEvent.VK_DOWN:
 			yChangeActive = false;
 			break;
+		default:
 		}
 	}
 

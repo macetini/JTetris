@@ -36,6 +36,7 @@ public class TimeDelay extends Timer {
 		schedule(task, timeOut);
 	}
 	
-	protected void taskDone() {
+	protected void taskDone() {	
+		// Called when timeout runs out. To be overridden. 
 	}
 }

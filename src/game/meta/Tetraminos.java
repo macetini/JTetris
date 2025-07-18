@@ -2,7 +2,7 @@ package game.meta;
 
 public final class Tetraminos {
 	
-	public static final int[][][][] SHAPES = { 
+	protected static final int[][][][] SHAPES = { 
 			{ // O
 				{ 
 					{ 1, 1 },					
@@ -145,4 +145,11 @@ public final class Tetraminos {
 				}
 			} 
 		};
+	
+	private Tetraminos() {
+	}
+	
+	public static int[][][][] getShapes() {
+		return SHAPES.clone();
+	}
 }

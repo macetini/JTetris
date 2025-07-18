@@ -10,6 +10,7 @@ import game.logic.timer.PullDelay;
 import game.meta.Colors;
 import game.meta.Config;
 import game.meta.Tetraminos;
+import game.util.MathUtil;
 
 public class GameLoop {
 	private GameFrame gameFrame;
@@ -19,7 +20,7 @@ public class GameLoop {
 
 	public GameLoop() {
 		gameFrame = new GameFrame();
-		
+
 		input = new Input(Config.X_DELAY_TIME, Config.R_DELAY_TIME);
 		gameFrame.addKeyListener(input);
 
@@ -33,14 +34,14 @@ public class GameLoop {
 
 	private MovingPieceData getNewMovingPiece() {
 		MovingPieceData newPiece = new MovingPieceData();
-		
-		int randIndex = (int) Math.floor(Math.random() * Tetraminos.SHAPES.length);
-		newPiece.setShapes(Tetraminos.SHAPES[randIndex]);
-		
-		int colorIndex = (int) Math.floor(Math.random() * Colors.SHAPE_COLORS.length);
+
+		int randIndex = MathUtil.getRand(Tetraminos.getShapes().length);
+		newPiece.setShapes(Tetraminos.getShapes()[randIndex]);
+
+		int colorIndex = MathUtil.getRand(Colors.getColors().length);
 		newPiece.setColor(colorIndex);
-		
-		newPiece.setPosition(Config.INIT_POSITION);
+
+		newPiece.setPosition(Config.getInitPosition());
 
 		return newPiece;
 	}
@@ -75,7 +76,7 @@ public class GameLoop {
 	}
 
 	private boolean checkVerticalMovement(MovingPieceData newPiece, int[][] data) {
-		if (input.getYInput()) {			
+		if (input.getYInput()) {
 			if (!pullDelay.isSpeedUpActive()) {
 				pullDelay.speedUp();
 			}
@@ -88,7 +89,7 @@ public class GameLoop {
 		return collision.checkVerticalCoalision(newPiece, data);
 	}
 
-	private GridData updateAndGetGridData(GridData gridData) {
+	private void updateGridData(GridData gridData) {
 		int[][] data = gridData.getData();
 
 		MovingPieceData currentPiece = gridData.getCurrentPiece();
@@ -108,13 +109,13 @@ public class GameLoop {
 					|| collision.collidesWithGridData(newPiece, data);
 
 			if (rotationCollides) {
-				newPiece =  new MovingPieceData(currentPiece);
+				newPiece = new MovingPieceData(currentPiece);
 			}
 		}
 
 		boolean collidedHorizontaly = checkHorizontalMovement(newPiece, data);
 		if (collidedHorizontaly) {
-			return gridData;
+			return;
 		}
 
 		boolean collidedVerticaly = checkVerticalMovement(newPiece, data);
@@ -122,56 +123,48 @@ public class GameLoop {
 		gridData.setDirty(true);
 		if (currentPiece.getPosition().y != 0 && currentPiece.isIdentical(newPiece)) {
 			gridData.setDirty(false);
-			return gridData;
+			return;
 		}
 
 		if (!collidedVerticaly) {
 			currentPiece = newPiece;
 			gridData.setCurrentPiece(currentPiece);
-			
+
 			int[][] combinedData = addMovingPieceToData(currentPiece, data);
 			gridData.setCombinedData(combinedData);
 		} else {
 			int[][] combinedData = addMovingPieceToData(currentPiece, data);
 			gridData.setCombinedData(combinedData);
-			
+
 			currentPiece = getNewMovingPiece();
 			gridData.setCurrentPiece(currentPiece);
-			
+
 			gridData.setData(combinedData);
-			return gridData;
+			return;
 		}
 
 		gridData.setData(data);
-		return gridData;
 	}
 
-	private GridData removeFullRows(GridData gridData) {
+	private void removeFullRows(GridData gridData) {
 		int[][] data = gridData.getData();
 		int[][] cleanData = new int[Config.ROWS][Config.COLUMNS];
 
-		int k = data.length - 1;
-
-		for (int i = data.length - 1; i >= 0; i--) {
+		int k = Config.ROWS - 1;
+		for (int i = Config.ROWS - 1; i >= 0; i--) {
 			boolean fullRow = true;
-
-			for (int j = data[i].length - 1; j >= 0; j--) {
+			for (int j = Config.COLUMNS - 1; j >= 0; j--) {
 				int cellData = data[i][j];
 				if (cellData == 0) {
 					fullRow = false;
 					break;
 				}
 			}
-
 			if (!fullRow) {
-				for (int m = 0; m < data[i].length; m++) {
-					cleanData[k][m] = data[i][m];
-				}
-				k--;
+				cleanData[k--] = Arrays.copyOf(data[i], Config.COLUMNS);
 			}
 		}
 		gridData.setData(cleanData);
-		return gridData;
 	}
 
 	private void renderGridData(GridData gridData) {
@@ -189,9 +182,14 @@ public class GameLoop {
 		int[][] emptyData = new int[Config.ROWS][Config.COLUMNS];
 		gridData.setData(emptyData);
 
-		while (true) {
-			gridData = removeFullRows(gridData);
-			gridData = updateAndGetGridData(gridData);
+		int loopCounter = 0;
+		boolean continueLooping = true;
+		while (continueLooping) {
+			loopCounter++;
+			continueLooping = loopCounter < Integer.MAX_VALUE;
+
+			removeFullRows(gridData);
+			updateGridData(gridData);
 			renderGridData(gridData);
 		}
 	}

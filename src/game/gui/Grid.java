@@ -32,7 +32,7 @@ public class Grid extends JPanel {
 	}
 
 	private void fillAllRectangles(Graphics2D g2, int colorIndex) {
-		g2.setColor(Colors.SHAPE_COLORS[colorIndex - 1]);
+		g2.setColor(Colors.getColors()[colorIndex - 1]);
 
 		for (int i = 0; i < data.length; i++) {
 			for (int j = 0; j < data[i].length; j++) {
@@ -62,7 +62,7 @@ public class Grid extends JPanel {
 
 	private void drawData(Graphics2D g2) {
 		if (data != null) {
-			for (int i = 1; i <= Colors.SHAPE_COLORS.length; i++) {
+			for (int i = 1; i <= Colors.getColors().length; i++) {
 				fillAllRectangles(g2, i);
 			}
 			drawAllRectangles(g2);
