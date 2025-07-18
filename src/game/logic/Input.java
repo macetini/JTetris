@@ -11,8 +11,8 @@ public class Input implements KeyListener {
 
 	private boolean rotate = false;
 
-	private TimeDelay horizontalDelay;
-	private TimeDelay rotationDelay;
+	private final TimeDelay horizontalDelay;
+	private final TimeDelay rotationDelay;
 
 	public Input(long xDelayTime, long rDelayTime) {
 		horizontalDelay = new TimeDelay(xDelayTime);

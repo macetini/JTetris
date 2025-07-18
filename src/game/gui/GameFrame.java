@@ -10,7 +10,7 @@ import game.meta.Config;
 @SuppressWarnings("serial")
 public class GameFrame extends JFrame implements KeyListener {
 
-	private Grid grid;
+	private final Grid grid;
 
 	public GameFrame() {
 		super(Config.NAME);

@@ -3,7 +3,7 @@ package game.logic.timer;
 public class PullDelay extends TimeDelay {
 	private boolean pullReady;
 	private long originalTimeOut;
-	private long speedUpTimeout;
+	private final long speedUpTimeout;
 	private boolean speedUpActive;
 
 	public boolean isSpeedUpActive() {

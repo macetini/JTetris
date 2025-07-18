@@ -4,7 +4,7 @@ import java.util.TimerTask;
 
 public class DelayTask extends TimerTask {
 	private boolean isDone = false;
-	private TimeDelay owner;
+	private final TimeDelay owner;
 	
 	public DelayTask(TimeDelay owner) {
 		this.owner = owner;

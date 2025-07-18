@@ -13,10 +13,10 @@ import game.meta.Tetraminos;
 import game.util.MathUtil;
 
 public class GameLoop {
-	private GameFrame gameFrame;
-	private Input input;
-	private PullDelay pullDelay;
-	private Collision collision;
+	private final GameFrame gameFrame;
+	private final Input input;
+	private final PullDelay pullDelay;
+	private final Collision collision;
 
 	public GameLoop() {
 		gameFrame = new GameFrame();
@@ -28,8 +28,6 @@ public class GameLoop {
 		pullDelay.start();
 
 		collision = new Collision();
-
-		run();
 	}
 
 	private MovingPieceData getNewMovingPiece() {
@@ -173,7 +171,7 @@ public class GameLoop {
 		}
 	}
 
-	private void run() {
+	public void Run() {
 		GridData gridData = new GridData();
 
 		MovingPieceData currentPiece = getNewMovingPiece();
