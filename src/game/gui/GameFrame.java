@@ -15,6 +15,15 @@ public class GameFrame extends JFrame implements KeyListener {
 	public GameFrame() {
 		super(Config.NAME);
 
+		init();
+
+		grid = new Grid();
+		add(grid);
+
+		setVisible(true);
+	}
+
+	private void init() {
 		addKeyListener(this);
 
 		int frameWidth = Config.CELL_SIZE * Config.COLUMNS + Config.GRID_PADDING * 4;
@@ -23,11 +32,6 @@ public class GameFrame extends JFrame implements KeyListener {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-
-		grid = new Grid();
-		add(grid);
-
-		setVisible(true);
 	}
 
 	public void dataProvider(int[][] data) {

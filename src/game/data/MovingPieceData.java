@@ -13,11 +13,8 @@ public class MovingPieceData {
 	}
 
 	public MovingPieceData(MovingPieceData original) {
-		Point positionClone = (Point) original.position.clone();
-		setPosition(positionClone);
-
-		setShapes(original.shapes);
-
+		position = (Point) original.position.clone();
+		shapes = original.shapes;
 		rotationIndex = original.rotationIndex;
 	}
 
@@ -47,12 +44,13 @@ public class MovingPieceData {
 
 	public void setColor(int colorIndex) {
 		this.colorIndex = colorIndex;
-		for (int i = 0; i < shapes.length; i++) {
-			for (int j = 0; j < shapes[i].length; j++) {
-				for (int k = 0; k < shapes[i][j].length; k++) {
-					int cellData = shapes[i][j][k];
+
+		for (int[][] rows : shapes) {
+			for (int[] collums : rows) {
+				for (int i = 0; i < collums.length; i++) {
+					int cellData = collums[i];
 					if (cellData != 0) {
-						shapes[i][j][k] = colorIndex + 1;
+						collums[i] = colorIndex + 1;
 					}
 				}
 			}

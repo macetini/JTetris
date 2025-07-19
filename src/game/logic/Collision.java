@@ -27,7 +27,7 @@ public class Collision {
 	public boolean collidesWithFloor(MovingPieceData newPiece) {
 		Point newPosition = newPiece.getPosition();
 		int[][] currentShape = newPiece.getShape();
-		
+
 		for (int i = 0; i < currentShape.length; i++) {
 			for (int j = 0; j < currentShape[i].length; j++) {
 				int cellData = currentShape[i][j];
@@ -50,15 +50,16 @@ public class Collision {
 		Point newPosition = newPiece.getPosition();
 		int[][] currentShape = newPiece.getShape();
 
-		for (int i = 0; i < currentShape.length; i++) {
-			for (int j = 0; j < currentShape[i].length; j++) {
-				int cellData = currentShape[i][j];
+		for (int[] collums : currentShape) {
+			int wallOffset = 0;
+			for (int cellData : collums) {
 				if (cellData != 0) {
-					int shapePiecePosition = newPosition.x + j;
+					int shapePiecePosition = newPosition.x + wallOffset;
 					if (shapePiecePosition < 0 || shapePiecePosition >= Config.COLUMNS) {
 						return true;
 					}
 				}
+				wallOffset++;
 			}
 		}
 		return false;
