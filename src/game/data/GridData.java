@@ -1,41 +1,89 @@
 package game.data;
 
+/**
+ * Holds the state of the Tetris game grid, including the current moving piece,
+ * the static grid data, the combined grid (with the moving piece), and a dirty flag.
+ */
 public class GridData {
-	private MovingPieceData currentPiece;
-	private int[][] data;
-	private int[][] combinedData;
-	private boolean dirty;
+    /** The currently active moving piece. */
+    private MovingPieceData currentPiece;
+    /** The static grid data (without the moving piece). */
+    private int[][] data;
+    /** The combined grid data (with the moving piece). */
+    private int[][] combinedData;
+    /** Indicates whether the grid data has changed and needs to be redrawn. */
+    private boolean dirty;
 
-	public int[][] getData() {
-		return data;
-	}
+    /**
+     * Gets the static grid data (without the moving piece).
+     *
+     * @return the 2D array representing the grid state
+     */
+    public int[][] getData() {
+        return data;
+    }
 
-	public void setData(int[][] data) {
-		this.data = data;
-	}
+    /**
+     * Sets the static grid data (without the moving piece).
+     *
+     * @param data the 2D array representing the grid state
+     */
+    public void setData(int[][] data) {
+        this.data = data;
+    }
 
-	public int[][] getCombinedData() {
-		return combinedData;
-	}
+    /**
+     * Gets the combined grid data (with the moving piece).
+     *
+     * @return the 2D array representing the combined grid state
+     */
+    public int[][] getCombinedData() {
+        return combinedData;
+    }
 
-	public void setCombinedData(int[][] combinedData) {
-		this.combinedData = combinedData;
-	}
+    /**
+     * Sets the combined grid data (with the moving piece).
+     *
+     * @param combinedData the 2D array representing the combined grid state
+     */
+    public void setCombinedData(int[][] combinedData) {
+        this.combinedData = combinedData;
+    }
 
-	public MovingPieceData getCurrentPiece() {
-		return currentPiece;
-	}
+    /**
+     * Gets the currently active moving piece.
+     *
+     * @return the current moving piece
+     */
+    public MovingPieceData getCurrentPiece() {
+        return currentPiece;
+    }
 
-	public void setCurrentPiece(MovingPieceData currentPiece) {
-		this.currentPiece = currentPiece;
-	}
+    /**
+     * Sets the currently active moving piece.
+     *
+     * @param currentPiece the moving piece to set
+     */
+    public void setCurrentPiece(MovingPieceData currentPiece) {
+        this.currentPiece = currentPiece;
+    }
 
-	public boolean isDirty() {
-		return dirty;
-	}
+    /**
+     * Checks if the grid data is marked as dirty (needs redraw).
+     *
+     * @return true if the grid data is dirty, false otherwise
+     */
+    public boolean isDirty() {
+        return dirty;
+    }
 
-	public void setDirty(boolean dirty) {
-		this.dirty = dirty;
-	}
+    /**
+     * Sets the dirty flag for the grid data.
+     *
+     * @param dirty true if the grid data needs to be redrawn, false otherwise
+     */
+    public void setDirty(boolean dirty) {
+        this.dirty = dirty;
+    }
 
 }

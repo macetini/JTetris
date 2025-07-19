@@ -7,51 +7,81 @@ import javax.swing.JFrame;
 
 import game.meta.Config;
 
-@SuppressWarnings("serial")
+/**
+ * Main game window for the Tetris game.
+ * Handles rendering the grid and processing window-level key events.
+ */
 public class GameFrame extends JFrame implements KeyListener {
 
-	private final Grid grid;
+    private final Grid grid;
 
-	public GameFrame() {
-		super(Config.NAME);
+    /**
+     * Constructs the main game frame, initializes the window, and adds the grid component.
+     */
+    public GameFrame() {
+        super(Config.NAME);
 
-		init();
+        init();
 
-		grid = new Grid();
-		add(grid);
+        grid = new Grid();
+        add(grid);
 
-		setVisible(true);
-	}
+        setVisible(true);
+    }
 
-	private void init() {
-		addKeyListener(this);
+    /**
+     * Initializes the frame size, listeners, and default close operation.
+     */
+    private void init() {
+        addKeyListener(this);
 
-		int frameWidth = Config.CELL_SIZE * Config.COLUMNS + Config.GRID_PADDING * 4;
-		int frameHeight = Config.CELL_SIZE * Config.ROWS + Config.GRID_PADDING * 6;
-		setSize(frameWidth, frameHeight);
+        int frameWidth = Config.CELL_SIZE * Config.COLUMNS + Config.GRID_PADDING * 4;
+        int frameHeight = Config.CELL_SIZE * Config.ROWS + Config.GRID_PADDING * 6;
+        setSize(frameWidth, frameHeight);
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-	}
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+    }
 
-	public void dataProvider(int[][] data) {
-		grid.setData(data);
-	}
+    /**
+     * Provides grid data to the grid component for rendering.
+     *
+     * @param data the 2D array representing the current grid state
+     */
+    public void dataProvider(int[][] data) {
+        grid.setData(data);
+    }
 
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// No implementation necessary. Not used.
-	}
+    /**
+     * Not used. Required by {@link KeyListener}.
+     *
+     * @param e the key event
+     */
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // No implementation necessary. Not used.
+    }
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			dispose();
-		}
-	}
+    /**
+     * Handles key press events for the frame.
+     * Closes the window if the Escape key is pressed.
+     *
+     * @param e the key event
+     */
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            dispose();
+        }
+    }
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// No implementation necessary. Not used.
-	}
+    /**
+     * Not used. Required by {@link KeyListener}.
+     *
+     * @param e the key event
+     */
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // No implementation necessary. Not used.
+    }
 }
