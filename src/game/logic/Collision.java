@@ -66,7 +66,7 @@ public class Collision {
      * @param data the current grid data
      * @return true if a vertical collision occurs, false otherwise
      */
-    public boolean checkVerticalCoalision(MovingPieceData newPiece, int[][] data) {
+    public boolean checkVerticalCollision(MovingPieceData newPiece, int[][] data) {
         return (collidesWithFloor(newPiece) || collidesWithGridData(newPiece, data));
     }
 
@@ -80,9 +80,9 @@ public class Collision {
         Point newPosition = newPiece.getPosition();
         int[][] currentShape = newPiece.getShape();
 
-        for (int[] collums : currentShape) {
+        for (int[] columns : currentShape) {
             int wallOffset = 0;
-            for (int cellData : collums) {
+            for (int cellData : columns) {
                 if (cellData != 0) {
                     int shapePiecePosition = newPosition.x + wallOffset;
                     if (shapePiecePosition < 0 || shapePiecePosition >= Config.COLUMNS) {
@@ -102,7 +102,7 @@ public class Collision {
      * @param data the current grid data
      * @return true if a horizontal collision occurs, false otherwise
      */
-    public boolean checkHorizontalCoalision(MovingPieceData newPiece, int[][] data) {
+    public boolean checkHorizontalCollision(MovingPieceData newPiece, int[][] data) {
         return (collidesWithWall(newPiece) || collidesWithGridData(newPiece, data));
     }
 }

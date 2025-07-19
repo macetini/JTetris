@@ -98,11 +98,11 @@ public class MovingPieceData {
 		this.colorIndex = colorIndex;
 
 		for (int[][] rows : shapes) {
-			for (int[] collums : rows) {
-				for (int i = 0; i < collums.length; i++) {
-					int cellData = collums[i];
+			for (int[] columns : rows) {
+				for (int i = 0; i < columns.length; i++) {
+					int cellData = columns[i];
 					if (cellData != 0) {
-						collums[i] = colorIndex + 1;
+						columns[i] = colorIndex + 1;
 					}
 				}
 			}
@@ -112,7 +112,7 @@ public class MovingPieceData {
 	/**
 	 * Rotates the piece to the next rotation state.
 	 */
-	public void rotatate() {
+	public void rotate() {
 		rotationIndex = (++rotationIndex) % shapes.length;
 	}
 

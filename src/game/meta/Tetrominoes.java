@@ -3,12 +3,12 @@ package game.meta;
 /**
  * Utility class containing the definitions of all Tetris tetromino shapes and their rotations.
  */
-public final class Tetraminos {
+public final class Tetrominoes {
     
     /**
      * Private constructor to prevent instantiation.
      */
-    private Tetraminos() {
+    private Tetrominoes() {
     }
     
     /**

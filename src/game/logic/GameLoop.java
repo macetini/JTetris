@@ -9,7 +9,7 @@ import game.gui.GameFrame;
 import game.logic.timer.PullDelay;
 import game.meta.Colors;
 import game.meta.Config;
-import game.meta.Tetraminos;
+import game.meta.Tetrominoes;
 import game.util.MathUtil;
 
 /**
@@ -50,8 +50,8 @@ public class GameLoop {
     private MovingPieceData getNewMovingPiece() {
         MovingPieceData newPiece = new MovingPieceData();
 
-        int randIndex = MathUtil.getRand(Tetraminos.getShapes().length);
-        newPiece.setShapes(Tetraminos.getShapes()[randIndex]);
+        int randIndex = MathUtil.getRand(Tetrominoes.getShapes().length);
+        newPiece.setShapes(Tetrominoes.getShapes()[randIndex]);
 
         int colorIndex = MathUtil.getRand(Colors.getColors().length);
         newPiece.setColor(colorIndex);
@@ -99,7 +99,7 @@ public class GameLoop {
         if (xChange != 0 && !input.xDelayActive()) {
             input.xDelayStart();
             newPiece.getPosition().x += xChange;
-            return collision.checkHorizontalCoalision(newPiece, data);
+            return collision.checkHorizontalCollision(newPiece, data);
         }
         return false;
     }
@@ -122,7 +122,7 @@ public class GameLoop {
             }
         }
 
-        return collision.checkVerticalCoalision(newPiece, data);
+        return collision.checkVerticalCollision(newPiece, data);
     }
 
     /**
@@ -144,7 +144,7 @@ public class GameLoop {
 
         if (input.getRotate() && !input.rDelayActive()) {
             input.rDelayStart();
-            newPiece.rotatate();
+            newPiece.rotate();
 
             boolean rotationCollides = collision.collidesWithFloor(newPiece) || collision.collidesWithWall(newPiece)
                     || collision.collidesWithGridData(newPiece, data);
@@ -154,12 +154,12 @@ public class GameLoop {
             }
         }
 
-        boolean collidedHorizontaly = checkHorizontalMovement(newPiece, data);
-        if (collidedHorizontaly) {
+        boolean collidesHorizontally = checkHorizontalMovement(newPiece, data);
+        if (collidesHorizontally) {
             return;
         }
 
-        boolean collidedVerticaly = checkVerticalMovement(newPiece, data);
+        boolean collidesVertically = checkVerticalMovement(newPiece, data);
 
         gridData.setDirty(true);
         if (currentPiece.getPosition().y != 0 && currentPiece.isIdentical(newPiece)) {
@@ -167,7 +167,7 @@ public class GameLoop {
             return;
         }
 
-        if (!collidedVerticaly) {
+        if (!collidesVertically) {
             currentPiece = newPiece;
             gridData.setCurrentPiece(currentPiece);
 
