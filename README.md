@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 # JTetris
 
 A simple, bare-bones Tetris game written in Java 8 using Swing for the GUI.  
 Originally created as a high school project and later modernized for Java 8.
+=======
+# Java 8 Tetris
+
+Found an old floppy disk at my parents' with a Java project from high school.
+
+I modernized it to Java 8. A simple, bare-bones Java. Swing for GUI and no additional external libraries. 
+>>>>>>> 4d69adcce57baae59774f58e06af1780a02b15e6
 
 ![Tetris Screenshot](https://github.com/user-attachments/assets/6442ac89-50ba-44cd-9992-8407dcb99e1c)
 
