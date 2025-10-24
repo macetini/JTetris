@@ -15,6 +15,11 @@ import game.meta.Config;
 public class Grid extends JPanel {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2045548547343865182L;
+
+	/**
      * Constructs a new Grid panel and sets its background color.
      */
     public Grid() {

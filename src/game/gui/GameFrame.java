@@ -13,7 +13,11 @@ import game.meta.Config;
  */
 public class GameFrame extends JFrame implements KeyListener {
 
-    private final Grid grid;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2315685653973684988L;
+	private final Grid grid;
 
     /**
      * Constructs the main game frame, initializes the window, and adds the grid component.
