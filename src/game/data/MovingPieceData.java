@@ -26,9 +26,10 @@ public class MovingPieceData {
 
 	/**
 	 * Copy constructor. Creates a new MovingPieceData from an existing one.
-	 * * @param original the MovingPieceData to copy
+	 * 
+	 * @param original the MovingPieceData to copy
 	 */
-	public MovingPieceData(MovingPieceData original) { //
+	public MovingPieceData(MovingPieceData original) { 
 		this.position = (Point) original.position.clone();
 		this.shapes = original.shapes;
 		this.rotationIndex = original.rotationIndex;
@@ -151,8 +152,7 @@ public class MovingPieceData {
 	 * Checks if this piece is identical in position and rotation to another piece.
 	 *
 	 * @param other the other MovingPieceData to compare
-	 * @return true if both pieces have the same position and rotation, false
-	 *         otherwise
+	 * @return true if both pieces have the same position and rotation, otherwise false
 	 */
 	public boolean isIdentical(MovingPieceData other) {
 		// Null checks for safety
