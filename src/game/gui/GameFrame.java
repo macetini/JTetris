@@ -46,8 +46,6 @@ public class GameFrame extends JFrame {
      * Initializes the frame size, listeners, and default close operation.
      */
     private void init() {
-        // NOTE: Removed addKeyListener(this) as we use Key Bindings now.
-
         int frameWidth = Config.CELL_SIZE * Config.COLUMNS + Config.GRID_PADDING * 4;
         int frameHeight = Config.CELL_SIZE * Config.ROWS + Config.GRID_PADDING * 6;
         setSize(frameWidth, frameHeight);
@@ -64,21 +62,15 @@ public class GameFrame extends JFrame {
         JRootPane rootPane = this.getRootPane();
         InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = rootPane.getActionMap();
-
-        // 1. Define the KeyStroke (The key to listen for)
+        
         KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-
-        // 2. Map the KeyStroke to an action name
         String escapeActionName = "closeWindow";
         inputMap.put(escapeKeyStroke, escapeActionName);
 
-        // 3. Define the action to be performed
         actionMap.put(escapeActionName, new AbstractAction() {
             private static final long serialVersionUID = 1L;
-
             @Override
-            public void actionPerformed(ActionEvent e) {
-                // Same logic as in keyPressed, but now reliable
+            public void actionPerformed(ActionEvent e) {                
                 dispose(); 
             }
         });
