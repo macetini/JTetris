@@ -1,16 +1,11 @@
 package game.util;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Utility class for mathematical operations used in the Tetris game.
  */
 public class MathUtil {
-
-	/** Random number generator instance. */
-	private static final Random rand = new Random();
-
 	/**
 	 * Private constructor to prevent instantiation.
 	 */
