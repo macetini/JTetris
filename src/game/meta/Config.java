@@ -17,6 +17,7 @@ public final class Config {
     /** The name of the game. */
     public static final String NAME = "JTetris";
     
+    /** Delay time for rendering (milliseconds) - used in game loop */
     public static final int RENDER_TIMEOUT = 25; 
 
     /** Number of rows in the game grid. */
