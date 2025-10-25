@@ -49,7 +49,7 @@ public class MovingPieceData {
 	 * @return a 2D array representing the current shape
 	 */
 	public int[][] getShape() {
-		// FIX: Added null check for robustness
+		// Added null check for robustness
 		return shapes != null ? shapes[rotationIndex] : null;
 	}
 
@@ -63,8 +63,9 @@ public class MovingPieceData {
 	}
 
 	/**
-	 * Sets the current rotation index. * @param rotationIndex the new rotation
-	 * index
+	 * Sets the current rotation index. 
+	 *
+	 * @param rotationIndex the new rotation index
 	 */
 	public void setRotationIndex(int rotationIndex) {
 		this.rotationIndex = rotationIndex;
