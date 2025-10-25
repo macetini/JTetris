@@ -15,9 +15,12 @@ public class GridData {
     private int[][] combinedData;
     /** Indicates whether the grid data has changed and needs to be redrawn. */
     private boolean dirty;
-    
+    /** Indicates if the game is over. */
     private boolean gameOver;
     
+    /**
+     * Initializes a new GridData instance with empty grid data.
+     */
     public void initNewData() {
     	int[][] emptyData = new int[Config.ROWS][Config.COLUMNS];
     	setData(emptyData);

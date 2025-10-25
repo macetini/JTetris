@@ -20,8 +20,9 @@ import game.util.MathUtil;
  * processing, collision detection, and rendering.
  */
 public class GameLoop {
+	/** Scheduler for running the game loop at fixed intervals. */
 	private static final ScheduledExecutorService GameLoopScheduler = Executors.newSingleThreadScheduledExecutor();
-
+	
 	/** The main game window and rendering frame. */
 	private GameFrame gameFrame;
 	/** Handles keyboard input. */
@@ -249,16 +250,20 @@ public class GameLoop {
 			renderGridData(gridData);
 
 			if (gridData.isGameOver()) {
-				initNewGridData(gridData);				
+				initNewGridData(gridData);
 			}
 		}, 0, Config.RENDER_TIMEOUT, TimeUnit.MILLISECONDS);
 	}
-	
-	private void initNewGridData(GridData gridData)
-	{
+
+	/**
+	 * Initializes a new grid data instance for a new game.
+	 *
+	 * @param gridData the grid data to initialize
+	 */
+	private void initNewGridData(GridData gridData) {
 		gridData.initNewData();
-		
+
 		MovingPieceData newMovingPiece = getNewMovingPiece();
-		gridData.setCurrentPiece(newMovingPiece);		
+		gridData.setCurrentPiece(newMovingPiece);
 	}
 }
