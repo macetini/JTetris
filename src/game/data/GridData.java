@@ -1,5 +1,7 @@
 package game.data;
 
+import game.meta.Config;
+
 /**
  * Holds the state of the Tetris game grid, including the current moving piece,
  * the static grid data, the combined grid (with the moving piece), and a dirty flag.
@@ -13,6 +15,16 @@ public class GridData {
     private int[][] combinedData;
     /** Indicates whether the grid data has changed and needs to be redrawn. */
     private boolean dirty;
+    
+    private boolean gameOver;
+    
+    public void initNewData() {
+    	int[][] emptyData = new int[Config.ROWS][Config.COLUMNS];
+    	setData(emptyData);
+    	
+    	dirty = false;
+    	gameOver = false;
+    }
 
     /**
      * Gets the static grid data (without the moving piece).
@@ -84,6 +96,14 @@ public class GridData {
      */
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
+    }
+    
+    public boolean isGameOver() {
+    	return gameOver;
+    }
+    
+    public void setGameOver() {
+    	gameOver = true;
     }
 
 }
