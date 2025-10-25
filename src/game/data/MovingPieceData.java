@@ -1,10 +1,11 @@
 package game.data;
 
 import java.awt.Point;
+import java.util.Arrays;
 
 /**
- * Represents a moving tetromino piece in the Tetris game,
- * including its position, shape, rotation, and color.
+ * Represents a moving tetromino piece in the Tetris game, including its
+ * position, shape, rotation, and color.
  */
 public class MovingPieceData {
 
@@ -25,29 +26,19 @@ public class MovingPieceData {
 
 	/**
 	 * Copy constructor. Creates a new MovingPieceData from an existing one.
-	 *
-	 * @param original the MovingPieceData to copy
+	 * * @param original the MovingPieceData to copy
 	 */
-	public MovingPieceData(MovingPieceData original) {
-		position = (Point) original.position.clone();
-		shapes = original.shapes;
-		rotationIndex = original.rotationIndex;
+	public MovingPieceData(MovingPieceData original) { //
+		this.position = (Point) original.position.clone();
+		this.shapes = original.shapes;
+		this.rotationIndex = original.rotationIndex;
+		this.colorIndex = original.colorIndex;
 	}
 
-	/**
-	 * Gets the current position of the piece.
-	 *
-	 * @return the position as a {@link Point}
-	 */
 	public Point getPosition() {
 		return position;
 	}
 
-	/**
-	 * Sets the position of the piece.
-	 *
-	 * @param position the new position as a {@link Point}
-	 */
 	public void setPosition(Point position) {
 		this.position = position;
 	}
@@ -58,16 +49,8 @@ public class MovingPieceData {
 	 * @return a 2D array representing the current shape
 	 */
 	public int[][] getShape() {
-		return shapes[rotationIndex];
-	}
-
-	/**
-	 * Sets the shapes (all rotation states) for this piece.
-	 *
-	 * @param shape a 3D array of all rotation states
-	 */
-	public void setShapes(int[][][] shape) {
-		this.shapes = shape;
+		// FIX: Added null check for robustness
+		return shapes != null ? shapes[rotationIndex] : null;
 	}
 
 	/**
@@ -80,6 +63,14 @@ public class MovingPieceData {
 	}
 
 	/**
+	 * Sets the current rotation index. * @param rotationIndex the new rotation
+	 * index
+	 */
+	public void setRotationIndex(int rotationIndex) {
+		this.rotationIndex = rotationIndex;
+	}
+
+	/**
 	 * Gets the color index of the piece.
 	 *
 	 * @return the color index
@@ -89,19 +80,45 @@ public class MovingPieceData {
 	}
 
 	/**
+	 * Sets the shapes (all rotation states) for this piece. Performs a DEEP COPY of
+	 * the 3D shape array to ensure that modifying the shape's cells (in setColor)
+	 * does not affect the static shape definitions.
+	 *
+	 * @param shape a 3D array of all rotation states
+	 */
+	public void setShapes(int[][][] shape) {
+		// Deep copy the 3D array
+		this.shapes = new int[shape.length][][];
+
+		for (int i = 0; i < shape.length; i++) {
+			int[][] rotation = shape[i];
+			this.shapes[i] = new int[rotation.length][];
+			for (int j = 0; j < rotation.length; j++) {
+				this.shapes[i][j] = Arrays.copyOf(rotation[j], rotation[j].length);
+			}
+		}
+	}
+
+	/**
 	 * Sets the color index for the piece and updates all non-zero cells in all
-	 * rotations.
+	 * rotations. * FIX: This operation is now safe because setShapes performs a
+	 * deep copy.
 	 *
 	 * @param colorIndex the color index to set
 	 */
 	public void setColor(int colorIndex) {
 		this.colorIndex = colorIndex;
 
+		if (shapes == null) {
+			return; // Guard against null shapes
+		}
+
 		for (int[][] rows : shapes) {
 			for (int[] columns : rows) {
 				for (int i = 0; i < columns.length; i++) {
 					int cellData = columns[i];
 					if (cellData != 0) {
+						// NOTE: The convention is colorIndex + 1 because 0 is typically 'empty'
 						columns[i] = colorIndex + 1;
 					}
 				}
@@ -113,14 +130,20 @@ public class MovingPieceData {
 	 * Rotates the piece to the next rotation state.
 	 */
 	public void rotate() {
-		rotationIndex = (++rotationIndex) % shapes.length;
+		// Null check
+		if (shapes != null) {
+			rotationIndex = (++rotationIndex) % shapes.length;
+		}
 	}
 
 	/**
 	 * Moves the piece down by one row.
 	 */
 	public void moveDown() {
-		position.y++;
+		// Ensure position is not null
+		if (position != null) {
+			position.y++;
+		}
 	}
 
 	/**
@@ -131,7 +154,12 @@ public class MovingPieceData {
 	 *         otherwise
 	 */
 	public boolean isIdentical(MovingPieceData other) {
-		return other.getPosition().y == this.getPosition().y && other.getPosition().x == this.getPosition().x
-				&& other.getRotation() == this.getRotation();
+		// Null checks for safety
+		if (other == null || this.position == null || other.position == null) {
+			return false;
+		}
+
+		return other.getPosition().y == this.position.y && other.getPosition().x == this.position.x
+				&& other.getRotation() == this.rotationIndex;
 	}
 }
